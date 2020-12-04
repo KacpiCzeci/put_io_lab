@@ -7,8 +7,8 @@
 7. File
 8. Component
 9. Component
-10. Decorator 
-11. Decorator
+10. Composite 
+11. Composite
 12. Observer
 13. Subject
 14. addActionListener(ActionListener), addMouseListener(MouseListener)
