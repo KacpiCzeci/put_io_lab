@@ -61,8 +61,6 @@ public class ExpenseRepository implements IExpenseRepository {
 		int i = 1;
 		for (Expense expense : expenses) {
 			fancyDatabase.persist(expense);
-			if (i++ % 2 == 0)
-				fancyDatabase.persist(expense);
 		}
 
 		fancyDatabase.close();

@@ -40,4 +40,25 @@ public class ExpenseRepositoryTest {
 
         assertEquals(ExpRep.getExpenses(), Collections.emptyList());
     }
+
+    @Test
+    public void testsaveExpences() {
+        IFancyDatabase mockObject = mock(IFancyDatabase.class);
+        when(mockObject.queryAll()).thenReturn(Collections.emptyList());
+
+        ExpenseRepository ExpRep = new ExpenseRepository(mockObject);
+        ExpRep.loadExpenses();
+        Expense Exp;
+        for(int i=0; i<5; i++){
+            Exp = new Expense();
+            Exp.setTitle("Wydatek");
+            Exp.setCategory("Codzienne");
+            Exp.setAmount(50);
+            ExpRep.addExpense(Exp);
+        }
+        ExpRep.saveExpenses();
+
+        verify(mockObject,times(5)).persist(any(Expense.class));
+
+    }
 }
