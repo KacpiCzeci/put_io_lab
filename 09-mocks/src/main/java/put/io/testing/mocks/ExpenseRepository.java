@@ -50,6 +50,8 @@ public class ExpenseRepository implements IExpenseRepository {
 		fancyDatabase.connect();
 
 		expenses = new ArrayList<Expense>(fancyDatabase.<Expense>queryAll());
+
+		fancyDatabase.close();
 	}
 
 	@Override
