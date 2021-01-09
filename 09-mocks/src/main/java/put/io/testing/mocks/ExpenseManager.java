@@ -13,9 +13,9 @@ public class ExpenseManager {
 	private ExpenseRepository expenseRepository;
 	private FancyService fancyService;
 
-	public ExpenseManager() {
-		this.expenseRepository = new ExpenseRepository(new FancyDatabase());
-		this.fancyService = new FancyService();
+	public ExpenseManager(ExpenseRepository ExpR, FancyService IFD) {
+		this.expenseRepository = ExpR;
+		this.fancyService = IFD;
 	}
 
 	public long calculateTotal() {
