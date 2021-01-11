@@ -25,93 +25,54 @@ public class ExpenseManagerTest {
         ExpenseRepository mockExpenceRepository = mock(ExpenseRepository.class);
         FancyService mockFancyService = mock(FancyService.class);
 
-        List<Expense> Expences = new ArrayList<Expense>();
-        for(int i=0; i<3; i++){
-            Expense Exp = new Expense();
-            Exp.setAmount(10*i);
-            Exp.setCategory("Category");
-            Exp.setTitle("Expence "+i);
-            Expences.add(Exp);
-        }
-
-        when(mockExpenceRepository.getExpenses()).thenReturn(Expences);
+        when(mockExpenceRepository.getExpenses()).thenReturn(List.of(
+                new Expense("Expence", "Category", 10),
+                new Expense("Expence", "Category", 20),
+                new Expense("Expence", "Category", 30)
+        ));
 
         ExpenseManager ExpMan = new ExpenseManager(mockExpenceRepository, mockFancyService);
         long result = ExpMan.calculateTotal();
 
         verify(mockExpenceRepository).getExpenses();
-        assertEquals(30, result);
+        assertEquals(60, result);
     }
 
     @Test
-    public void testcalculateTotalForCategoryHome() {
+    public void testcalculateTotalForCategory() {
         ExpenseRepository mockExpRep = mock(ExpenseRepository.class);
         FancyService mockFancyService = mock(FancyService.class);
 
-        List<Expense> Expences = new ArrayList<Expense>();
-        for(int i=0; i<2; i++){
-            Expense Exp = new Expense();
-            Exp.setAmount(10*i);
-            Exp.setCategory("Home");
-            Exp.setTitle("Expence "+i);
-            Expences.add(Exp);
-        }
-
-        when(mockExpRep.getExpensesByCategory("Home")).thenReturn(Expences);
+        when(mockExpRep.getExpensesByCategory("Home")).thenReturn(List.of(
+                new Expense("Expence", "Home", 10),
+                new Expense("Expence", "Home", 20),
+                new Expense("Expence", "Home", 30)
+        ));
+        when(mockExpRep.getExpensesByCategory("Car")).thenReturn(List.of(
+                new Expense("Expence", "Car", 10),
+                new Expense("Expence", "Car", 20),
+                new Expense("Expence", "Car", 30)
+        ));
+        when(mockExpRep.getExpensesByCategory("Food")).thenReturn(Collections.emptyList());
+        when(mockExpRep.getExpensesByCategory("Sport")).thenReturn(Collections.emptyList());
 
         ExpenseManager ExpMan = new ExpenseManager(mockExpRep, mockFancyService);
         long result = ExpMan.calculateTotalForCategory("Home");
 
         verify(mockExpRep).getExpensesByCategory("Home");
-        assertEquals(10, result);
-    }
+        assertEquals(60, result);
 
-    @Test
-    public void testcalculateTotalForCategoryCar() {
-        ExpenseRepository mockExpRep = mock(ExpenseRepository.class);
-        FancyService mockFancyService = mock(FancyService.class);
-
-        List<Expense> Expences = new ArrayList<Expense>();
-        for(int i=0; i<3; i++){
-            Expense Exp = new Expense();
-            Exp.setAmount(10*i);
-            Exp.setCategory("Car");
-            Exp.setTitle("Expence "+i);
-            Expences.add(Exp);
-        }
-
-        when(mockExpRep.getExpensesByCategory("Car")).thenReturn(Expences);
-
-        ExpenseManager ExpMan = new ExpenseManager(mockExpRep, mockFancyService);
-        long result = ExpMan.calculateTotalForCategory("Car");
+        result = ExpMan.calculateTotalForCategory("Car");
 
         verify(mockExpRep).getExpensesByCategory("Car");
-        assertEquals(30, result);
-    }
+        assertEquals(60, result);
 
-    @Test
-    public void testcalculateTotalForCategoryFood() {
-        ExpenseRepository mockExpRep = mock(ExpenseRepository.class);
-        FancyService mockFancyService = mock(FancyService.class);
-
-        when(mockExpRep.getExpensesByCategory("Food")).thenReturn(Collections.emptyList());
-
-        ExpenseManager ExpMan = new ExpenseManager(mockExpRep, mockFancyService);
-        long result = ExpMan.calculateTotalForCategory("Food");
+        result = ExpMan.calculateTotalForCategory("Food");
 
         verify(mockExpRep).getExpensesByCategory("Food");
         assertEquals(0, result);
-    }
 
-    @Test
-    public void testcalculateTotalForCategorySport() {
-        ExpenseRepository mockExpRep = mock(ExpenseRepository.class);
-        FancyService mockFancyService = mock(FancyService.class);
-
-        when(mockExpRep.getExpensesByCategory("Sport")).thenReturn(Collections.emptyList());
-
-        ExpenseManager ExpMan = new ExpenseManager(mockExpRep, mockFancyService);
-        long result = ExpMan.calculateTotalForCategory("Sport");
+        result = ExpMan.calculateTotalForCategory("Sport");
 
         verify(mockExpRep).getExpensesByCategory("Sport");
         assertEquals(0, result);

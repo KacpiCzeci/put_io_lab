@@ -4,6 +4,14 @@ public class Expense {
 	private String title;
 	private String category;
 	private long amount;
+
+	public Expense(){};
+
+	public Expense(String t, String c, long a){
+		this.title = t;
+		this.category = c;
+		this.amount = a;
+	}
 	
 	public String getTitle() {
 		return title;
