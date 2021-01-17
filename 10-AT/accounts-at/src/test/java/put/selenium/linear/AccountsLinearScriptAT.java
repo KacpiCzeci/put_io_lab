@@ -17,8 +17,6 @@ public class AccountsLinearScriptAT {
     @Rule
     public ScreenshotAndQuitOnFailureRule screenshotOnFailureAndWebDriverQuitRule =
             new ScreenshotAndQuitOnFailureRule();
-    private StringBuffer verificationErrors = new StringBuffer();
-
 
     @Before
     public void setUp() throws Exception {
@@ -43,11 +41,7 @@ public class AccountsLinearScriptAT {
         driver.findElement(By.name("addressData")).clear();
         driver.findElement(By.name("addressData")).sendKeys("Główna 1, Poznań");
         driver.findElement(By.name("submit")).click();
-        try {
-            assertEquals("Login", driver.findElement(By.xpath("//h3")).getText());
-        } catch (Error e) {
-            verificationErrors.append(e.toString());
-        }
+        assertEquals("Login", driver.findElement(By.xpath("//div[@id='contentSingle']/h3")).getText());
     }
 
 
